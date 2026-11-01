@@ -1,12 +1,11 @@
 # s01e03-what-it-shows
 
-Ticket #4471 merged 412 date reports into one issue. It holds three problems. See the issues for one ticket per problem, each with its report count, and `src/routes/kb/incidents/4471-split/+page.svx` for the kb page (`page.html` is the page as rendered).
+Ticket #4471 merged 412 date reports into one issue. It holds two problems. See the issues for one ticket per problem, each with its report count, and `src/routes/kb/incidents/4471-split/+page.svx` for the kb page (`page.html` is the page as rendered).
 
 | Problem | Reports |
 |---|---|
-| Parser reads dates month first | 374 |
+| Parser reads dates month first (5 of these read as a one-day move) | 379 |
 | booking-v3 form hints MM/DD/YYYY | 33 |
-| Date lands one day off | 5 |
 
 The rest of this repo is the support kb export, unchanged except for the new page and `SplitCounts.svelte`.
 # kb — the support knowledge base

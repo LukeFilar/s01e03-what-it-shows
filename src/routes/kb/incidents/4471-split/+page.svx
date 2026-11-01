@@ -1,6 +1,6 @@
 ---
 layout: runbook
-title: '#4471 · three problems, not one'
+title: '#4471 · two problems, not one'
 owner: support desk
 status: proposed
 reviewed: 2026-11-01
@@ -17,7 +17,7 @@ signature: v1.eyJzdWIiOiIzODQiLCJhdWQiOiJjaGFsbGVuZ2U6d2hhdC1pdC1zaG93cyIsImlhdC
 </script>
 
 [#4471](/kb/incidents/4471) says **one issue, one fix queued**. That is wrong. The 412 reports
-merged into it hold three problems, and one fix does not close them.
+merged into it hold two problems, and one fix does not close them.
 
 <Callout kind="warn">
 Merging on subject line alone ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) put
@@ -25,7 +25,7 @@ reports with the same subject but different causes into one ticket. Intake's bro
 (`intakeTag`) is not a safe way to tell them apart: it disagrees with the real cause on 38 reports.
 </Callout>
 
-## The three problems
+## The two problems
 
 <SplitCounts ticket={4471} />
 
@@ -34,9 +34,10 @@ reports with the same subject but different causes into one ticket. Intake's bro
 2. **Form hint.** booking-v3 prints `MM/DD/YYYY` under its date field. People at day-first tenants
    (`alder.physio`, `copper.studio`, `pale.harbour`) type month first because the form tells them
    to, and the form then reads the date their way. The parser fix does not fix this.
-3. **One day off.** A few reports describe a date that is one day off, not a swapped day and
-   month: Lisbon and Toronto got different days for one meeting. Their bodies are short, so a
-   time zone cause is a guess. They need their own look before anyone calls them fixed.
+
+Five of the parser reports (R-41202, R-41209, R-41236, R-41344, R-41620) read as a one-day move,
+not a flipped day and month. One mentions Lisbon and Toronto, so a time zone problem is possible.
+The desk counts them under the parser, as `causes.ts` does. Look at them again once the parser fix ships.
 
 ## What the desk code says
 
