@@ -1,0 +1,53 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: support desk
+status: proposed
+reviewed: 2026-11-01
+signature: v1.eyJzdWIiOiIzODQiLCJhdWQiOiJjaGFsbGVuZ2U6d2hhdC1pdC1zaG93cyIsImlhdCI6MTc5MzUzMTM4NSwiZXhwIjoxNzkzNjE3Nzg1fQ.l3_JqaGiaIEMdPrFdz6TF0obFaRYbXsBZB_EBJurTOc
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import SplitCounts from '#lib/kb/SplitCounts.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const { signature } = metadata;
+</script>
+
+[#4471](/kb/incidents/4471) says **one issue, one fix queued**. That is wrong. The 412 reports
+merged into it hold three problems, and one fix does not close them.
+
+<Callout kind="warn">
+Merging on subject line alone ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) put
+reports with the same subject but different causes into one ticket. Intake's browser guess
+(`intakeTag`) is not a safe way to tell them apart: it disagrees with the real cause on 38 reports.
+</Callout>
+
+## The three problems
+
+<SplitCounts ticket={4471} />
+
+1. **Parser.** The shared parser reads every date month first. Day-first tenants get flipped
+   dates in the app, in email and through the booking-v2 form. This is the bug #4471 describes.
+2. **Form hint.** booking-v3 prints `MM/DD/YYYY` under its date field. People at day-first tenants
+   (`alder.physio`, `copper.studio`, `pale.harbour`) type month first because the form tells them
+   to, and the form then reads the date their way. The parser fix does not fix this.
+3. **One day off.** A few reports describe a date that is one day off, not a swapped day and
+   month: Lisbon and Toronto got different days for one meeting. Their bodies are short, so a
+   time zone cause is a guess. They need their own look before anyone calls them fixed.
+
+## What the desk code says
+
+`causes.ts` places each report by tenant locale and booking form. It files the one-day reports
+under `parser` and footnotes them.
+
+<CauseTable ticket={4471} />
+
+## Lessons
+
+- Same subject is not same cause. Read the tenant and the way in before you merge.
+- A ticket that says "one issue" needs a count per cause next to it.
+
+<RenderStamp {signature} />
